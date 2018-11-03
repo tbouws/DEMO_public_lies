@@ -1,5 +1,6 @@
 {-
-Module containing examples for thesis The Logic of Public Lies.
+Module containing the code used in examples for thesis The Logic of Public Lies.
+Explanation and context can be found in the thesis.
 
 author: Tessa Bouws
 -}
@@ -84,11 +85,28 @@ upd_public_lie :: Ord state =>
             KD45model state -> Form' state -> KD45model state
 upd_public_lie = upd_public_statement
 
-ann_tails :: Form' Int
-ann_tails = Ng' (Prp' (P 0))
+coin_heads = Prp' (P 0)
+coin_tails = Ng' coin_heads
 
 example12 :: KD45model Int
-example12 = upd_public_lie example6 ann_tails
+example12 = upd_public_lie example6 coin_tails
 
-example13 :: KD45model Int
-example13 = upd_recovery_dynamic example12 (Ng' ann_tails)
+example12_2 :: KD45model Int
+example12_2 = upd_recovery_dynamic example12 (Ng' coin_tails)
+
+b_convinced_tails = Box' bob coin_tails
+
+b_convinced_tails_after_lie = Lie' (coin_tails) (b_convinced_tails)
+
+b_convinced_tails_after_lie_recovery =
+  Lie' (coin_tails) (Recovery' (coin_heads) (b_convinced_tails))
+
+ex13_1 = isTrueAt' example6 1 b_convinced_tails
+ex13_2 = isTrueAt' example12 1 b_convinced_tails
+ex13_3 = isTrueAt' example12_2 1 b_convinced_tails
+
+ex13_4 = isTrueAt' example6 1 b_convinced_tails_after_lie
+ex13_5 = isTrueAt' example6 1 b_convinced_tails_after_lie_recovery
+
+ex14_1 = mas_f [coin_heads, coin_tails] example6 alice 1 == [coin_heads]
+ex14_2 = mas_f [coin_heads, coin_tails] example6 bob 1 == []

@@ -1,5 +1,5 @@
 {- Module that contains an algorithm to determine the maximal acceptable set
-of formulas for an agent in a world. An intuitivy explanation on how the
+of formulas for an agent in a world. An intuitive explanation on how the
 algorithm works can be found in the thesis.
 
 author: Tessa Bouws
@@ -42,7 +42,7 @@ mas_f_algorithm k fs m ag1 w
             fs' = [f | f <- fs, elem f (concat acc_subsets)]
         in  mas_f_algorithm (k+1) fs' m ag1 w
 
-
+-- From https://stackoverflow.com/questions/14267196/fast-obtention-of-all-the-subsets-of-size-n-in-haskell/14286085, by user schickling
 subsets :: Int -> [a] -> [[a]]
 subsets 0 _ = [[]]
 subsets _ [] = []
